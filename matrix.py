@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """
 Python Comment Block
@@ -9,6 +10,10 @@ Python Comment Block
 
 #Basic linear algebra library
 # Already included in NumPy
+
+a=[1,2,3]
+b=[-1,-2,-3]
+c=[3,4,5]
 
 def vector_add(v, w):
     # adds corresponding elements
@@ -40,23 +45,25 @@ def vector_mean(vectors):
     
 def dot(v, w):
     #returns the dot product of two vectors
-    return 0
+    return sum(v_i * w_i
+            for v_i, w_i in zip(v,w))
 
 def sum_of_squares(v):
     #returns the component wise square of v
-    return 0
+    return dot(v,v)
 
+import math
 def magnitude(v):
     #returns the scalar magnitude of a vector v
-    return 0
+    return math.sqrt(sum_of_squares(v))
 
 def squared_distance(v, w):
     #returns the squared L2 distance between two points
-    return 0
+    return sum((v_i - w_i) ** 2  for v_i, w_i in zip(v,w))
 
 def distance(v, w):
     #returns the L2 distance between two points
-    return 0
+    return math.sqrt(squared_distance(v,w))
 
 def shape(A):
     #returns the number of rows and columns in matrix A
