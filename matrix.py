@@ -14,6 +14,7 @@ Python Comment Block
 a=[1,2,3]
 b=[-1,-2,-3]
 c=[3,4,5]
+A=[a,b,c]
 
 def vector_add(v, w):
     # adds corresponding elements
@@ -37,11 +38,24 @@ def scalar_multiply(c, v):
     return [c * v_i
             for v_i in v]
     
+def vector_sum(vectors):
+    #sums the individual elements across vectors, returning a vector
+    result = vectors[0]
+    for vector in vectors[1:]:
+        result = vector_add(result, vector)
+    return result
+
+import functools #reduce requires functools in Python 3
+def vector_sum2(vectors):
+    return functools.reduce(vector_add, functools.reduce)    
+    
 def vector_mean(vectors):
     #compute the vector whos ith element is the mean of the ith elments of the
     # input vectors
-    
-    return 0
+    n = len(vectors)
+    result = vector_sum(vectors)
+    result = scalar_multiply(1/n, result)
+    return result
     
 def dot(v, w):
     #returns the dot product of two vectors
@@ -67,7 +81,9 @@ def distance(v, w):
 
 def shape(A):
     #returns the number of rows and columns in matrix A
-    return 0,0
+    num_rows = len(A)
+    num_cols = len(A[0]) if A else 0 #this is single line syntax for ifelse
+    return num_rows, num_cols
 
 def get_row(A, i):
     #returns the ith row of Matrix A
@@ -79,10 +95,20 @@ def get_column(A, j):
             for A_i in A]
 
 def make_matrix(num_rows, num_cols, entry_fn):
-    #returns a num_rows x num_cols matrix whose (i,j)th element = f(i,j)
-    return 0
+    #returns a num_rows x num_cols matrix whose (i,j)th element = f(i,j)                
+    return [[entry_fn(i,j) 
+                for j in range(num_cols)]
+                for i in range(num_rows)]
+
+def test_matrix(i,j):
+    return (i,j)
+
+make_matrix(3,5,test_matrix)
+
+def is_diagonal(i,j):
+    return 1 if i == j else 0
 
 def identity(n):
     #returns an identity matrix of size nxn
-    return 0
+    return make_matrix(n,n,is_diagonal)
 
